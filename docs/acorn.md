@@ -86,7 +86,7 @@ local dog = acorn.class {
 }
 
 local doggie = dog()
-print(doggie)
+print(doggie) -- woof! woof!
 ```
 
 In this example, I replace the `__tostring` metamethod for a custom one which returns N amount of `woof!`s dependant of the `woofiness`. *(cant believe i'm actually writing this...)*
