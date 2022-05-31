@@ -5,7 +5,7 @@ To import it on your project:
 -   copy [`rose.lua`](../rose.lua) into your project
 -   write `local rose = require "rose"`
 
-Usage:
+*Usage:*
 ```lua
 local rose = require "rose"
 rose(entities, systems, process, etcetera)
@@ -50,14 +50,9 @@ local entities = {
 }
 
 rose(entities, systems, "operate", "cheese")
-
 ```
+In this example, `rose` will go through all the systems available and checks if the entities fit their descriptions through `filter`.
+
+if `filter` returns non-`nil` and the function `operate` exists on the system, it will run over the entities.
 
 <br>
-
-
-### `rose (entities: []table, systems: []System, process: ?string, arguments: ?...)`
--   `entities:` A contiguous array of entities.
--   `systems:` A contiguous array of systems.
--   `process:` What kind of process to effect.
--   `arguments:` Arguments for said process.
