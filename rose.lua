@@ -21,7 +21,7 @@
     3. This notice may not be removed or altered from any source distribution.
 ]]
 
-local rose = function (entities, systems, process, ...)
+return function (entities, systems, process, ...)
     local processed = {}
     process = process or "process"
 
@@ -41,67 +41,3 @@ local rose = function (entities, systems, process, ...)
 
     return processed
 end
-
-if ... then
-    return rose
-end
-
--- Usage:
-local movement = {
-    filter = function (self, ent)
-        return ent.id and
-               ent.pos_x and ent.pos_y and
-               ent.vel_x and ent.vel_y
-    end,
-
-    process = function(self, ent)
-        local nx = ent.pos_x + ent.vel_x
-        local ny = ent.pos_y + ent.vel_y
-
-        print(string.format(
-            "id = [%s], pos = [%s, %s]. next pos = [%s, %s]",
-            ent.id, ent.pos_x, ent.pos_y, nx, ny
-        ))
-
-        ent.pos_x = nx
-        ent.pos_y = ny
-    end
-}
-
-local speaks = {
-    filter = function(self, ent)
-        return ent.id
-           and ent.pos_x and ent.pos_y 
-           and ent.greetings
-    end,
-
-    process = function (self, ent)
-        print(string.format(
-            "[ID %s at %s, %s]: %s", 
-            ent.id, ent.pos_x, ent.pos_y, ent.greetings
-        ))
-    end
-}
-
-local entities = {
-    { 
-        id = 0,
-        pos_x = 10, pos_y = 10, 
-        vel_x = 5, vel_y = 5 
-    },
-    
-    { 
-        id = 1,
-        pos_x = 25, pos_y = 25, 
-        vel_x = -5, vel_y = -5,
-        greetings = "Howdy!"
-    },
-
-    {
-        id = 2,
-        pos_x = 50, pos_y = 50,
-        greetings = "Helllllooo!"
-    }
-}
-
-rose(entities, { movement, speaks })
