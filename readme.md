@@ -1,0 +1,1 @@
+![Lumi's logo](docs/logo.svg)
