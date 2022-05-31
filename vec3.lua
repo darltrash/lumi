@@ -1,4 +1,4 @@
--- vector2D.lua: A simple 3D vector library
+-- vec2.lua: A simple 3D vector library
 
 --[[
     Copyright (c) 2022 Nelson Lopez
