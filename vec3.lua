@@ -23,7 +23,7 @@
 
 local vector = {}
 vector.__index = vector
-vector.__type = "vector3D"
+vector.__type = "vec3"
 
 local function isVector(a)
     return getmetatable(a) == vector
@@ -226,7 +226,7 @@ vector.__le = function (a, b)
 end
 
 vector.__tostring = function (a)
-    return ("vector3D(%s, %s)"):format(a.x, a.y)
+    return ("vec3(%s, %s)"):format(a.x, a.y)
 end
 
 vector.zero = vector.new(0, 0, 0)

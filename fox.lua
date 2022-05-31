@@ -23,6 +23,11 @@
 ]]
 
 assert(
+    love,
+    "This library requires Löve to work!"
+)
+
+assert(
     select(2, love.getVersion()) <= 10,
     "Löve version unsupported :("
 )
