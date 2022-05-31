@@ -23,12 +23,12 @@
 ]]
 
 return {
-    class = function (name, tab)
+    class = function (tab)
         local t = type (tab)
         assert(t, ("Expected 'table', got '%s'!"):format(t))
     
         tab.__index = tab
-        tab.__type = name
+        tab.__type = tab.__type or "Instance"
         local new = tab.new
 
         tab.new = function (...)
@@ -39,12 +39,8 @@ return {
             return out
         end
 
-        return setmetatable({
-            new = function (...)
-                return tab.new(...)
-            end
-        }, {
-            __index = tab,
+        return setmetatable(tab, {
+            __type = "Class",
             __call = function(_, ...)
                 return tab.new(...)
             end
