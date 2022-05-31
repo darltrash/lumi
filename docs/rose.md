@@ -6,10 +6,45 @@ To import it on your project:
 -   write `local rose = require "rose"`
 
 Usage:
-```
+```lua
 local rose = require "rose"
 rose(entities, systems, process, etcetera)
 ```
+
+### How does ECS work?
+Imagine you have a bunch of tables with all sorts of data, and you want all of them to act in a certain way depending on what data they contain, like the **Entities** of a game.
+
+ECS works in a similar manner, a bunch of "systems" detect if said items fit a certain criteria, then do a set of operations on those which do.
+
+Those data items are named **Entities** by ECS.
+
+### Let's make a system
+```lua
+local system_screams = {
+    filter = function(self, item)
+        if item.has_mouth then
+            return true
+        end
+    end,
+
+    operate = function(self, item, whatever)
+        print("I have a mouth and i must scream!")
+    end
+}
+```
+This system has a `filter` "method" which allows us to know if an item's `has_mouth` property is not `nil`.
+
+If said check is `true`, the rest of the functions should run.
+
+### Let's test it out!
+```lua
+local systems = { system_screams }
+local entities = {
+    { has_mouth = true }
+}
+
+```
+
 
 ### `rose (entities: []table, systems: []System, process: ?string, arguments: ?...)`
 -   `entities:` A contiguous array of entities.
