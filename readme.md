@@ -1,4 +1,4 @@
-![Lumi's logo](docs/logo.svg)
+![Lumi's logo](docs/logo.svg) <br>
 A set of tiny, single-file libraries I've developed along the way.
 All the modules present in this repository are designed to be dragged straight into your project without any setup beforehand.
 
