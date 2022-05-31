@@ -91,6 +91,8 @@ print(doggie)
 
 In this example, I replace the `__tostring` metamethod for a custom one which returns N amount of `woof!`s dependant of the `woofiness`. *(cant believe i'm actually writing this...)*
 
+<br>
+
 ### A replacement for the traditional `type()`
 ```lua
 -- Type name overloads!
