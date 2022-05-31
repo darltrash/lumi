@@ -1,4 +1,4 @@
--- Fox: @darltrash's rendering sheganigans
+-- Fox: A simple view-based rendering system for Löve
 -- inspired by TinyFX and LVFX by Shakesoda
 
 --[[

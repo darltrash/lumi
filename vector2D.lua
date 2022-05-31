@@ -1,4 +1,4 @@
--- vector2D.lua: @darltrash's Vector library
+-- vector2D.lua: A simple 2D vector library
 
 --[[
     Copyright (c) 2022 Nelson Lopez
@@ -113,17 +113,17 @@ local lerp = function (a, b, t)
 end
 
 vector.clamp = function (a, min, max)
-  local minx, miny = min, min
-  if isVector(min) then
-    minx, miny = min:unpack()
-  end
-  
-  local maxx, maxy = max, max
-  if isVector(max) then
-    maxx, maxy = max:unpack()
-  end
-  
-  return vector.new(clamp(a.x, minx, maxx), clamp(a.y, miny, maxy))
+    local minx, miny = min, min
+    if isVector(min) then
+        minx, miny = min:unpack()
+    end
+    
+    local maxx, maxy = max, max
+    if isVector(max) then
+        maxx, maxy = max:unpack()
+    end
+    
+    return vector.new(clamp(a.x, minx, maxx), clamp(a.y, miny, maxy))
 end
 
 vector.lerp = function (a, b, t)
