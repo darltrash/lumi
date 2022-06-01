@@ -21,7 +21,7 @@
     3. This notice may not be removed or altered from any source distribution.
 ]]
 
-local vector = {}
+local vector = { x = 0, y = 0 }
 vector.__index = vector
 vector.__type = "vec2"
 
@@ -33,10 +33,7 @@ vector.is_vector = isVector
 
 vector.new = function (x, y)
     return setmetatable(
-        { 
-            x = x or 0, 
-            y = y or 0 
-        }, vector
+        { x = x, y = y }, vector
     )
 end
 
