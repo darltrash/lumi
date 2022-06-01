@@ -33,7 +33,11 @@ vector.is_vector = isVector
 
 vector.new = function (x, y, z)
     return setmetatable(
-        { x = x, y = y, z = z }, vector
+        { 
+            x = x or 0, 
+            y = y or 0, 
+            z = z or 0 
+        }, vector
     )
 end
 
@@ -85,12 +89,12 @@ vector.unpack = function (self)
     return self.x, self.y, self.z
 end
 
-vector.get_magnitude = function (self)
+vector.magnitude = function (self)
     return math.sqrt(self.x^2 + self.y^2 + self.z^2)
 end
 
 vector.normalize = function (self)
-    local m = self:get_magnitude()
+    local m = self:magnitude()
     return m == 0 and self or (self / m)
 end
 
@@ -154,6 +158,7 @@ vector.lerp = function (a, b, t)
 end
 
 vector.round = function(a, b)
+    b = b or 1
     return isVector(b) and 
         vector.new(
             math.floor((a.x/b.x) + .5)*b.x,

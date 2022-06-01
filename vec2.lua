@@ -33,7 +33,10 @@ vector.is_vector = isVector
 
 vector.new = function (x, y)
     return setmetatable(
-        { x = x, y = y }, vector
+        { 
+            x = x or 0, 
+            y = y or 0 
+        }, vector
     )
 end
 
@@ -46,6 +49,20 @@ vector.from_angle = function (theta, magnitude)
          math.cos(theta)*magnitude,
         -math.sin(theta)*magnitude
     )
+end
+vector.from_table = function (t)
+    return vector.new(
+        tonumber(t.x) or 0,
+        tonumber(t.y) or 0
+    )
+end
+
+vector.from_array = function (array)
+    return vector.new(array[1], array[2])
+end
+
+vector.to_array = function (self)
+    return {self.x, self.y}
 end
 
 vector.to_angle = function (self)
@@ -62,31 +79,16 @@ vector.rotate = function (self, theta)
     )
 end
 
-vector.from_table = function (t)
-    return vector.new(
-        tonumber(t.x) or 0,
-        tonumber(t.y) or 0
-    )
-end
-
-vector.from_array = function (array)
-    return vector.new(array[1], array[2])
-end
-
-vector.to_array = function (self)
-    return {self.x, self.y}
-end
-
 vector.unpack = function (self)
     return self.x, self.y
 end
 
-vector.get_magnitude = function (self)
+vector.magnitude = function (self)
     return math.sqrt(self.x^2 + self.y^2)
 end
 
 vector.normalize = function (self)
-    local m = self:get_magnitude()
+    local m = self:magnitude()
     return m == 0 and self or (self / m)
 end
 
@@ -132,6 +134,7 @@ vector.lerp = function (a, b, t)
 end
 
 vector.round = function(a, b)
+    b = b or 1
     return isVector(b) and vector.new(math.floor((a.x/b.x) + .5)*b.x, math.floor((a.y/b.y) + .5)*b.y)
                         or vector.new(math.floor((a.x/b) + .5)*b, math.floor((a.y/b) + .5)*b)
 end
