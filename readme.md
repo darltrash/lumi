@@ -8,4 +8,4 @@ All the modules present in this repository are designed to be dragged straight i
 - [`mimi.lua:`](mimi.lua) [`[DOCS]`](docs/mimi.md) A very simple INI-like setup language
 - [`vec2.lua:`](vec2.lua) [`[DOCS]`](docs/vec2.md) A simple 2D vector library with metatables and operator overloads
 - [`vec3.lua:`](vec3.lua) A simple 3D vector library with metatables and operator overloads
-- [`fox.lua:`](fox.lua) A simple view-based rendering system for Löve
+- [`mat4.lua:`](mat4.lua) A simple 4D matrix library
