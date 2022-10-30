@@ -91,7 +91,7 @@ end
 
 vector.normalize = function (self)
     local m = self:magnitude()
-    return m == 0 and self or (self / m)
+    return m ~= 0 and (self / m) or vector(0, 0, 0)
 end
 
 vector.dist = function (a, b)

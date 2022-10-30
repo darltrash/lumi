@@ -62,8 +62,10 @@ vector.to_array = function (self)
     return {self.x, self.y}
 end
 
+local atan = math.atan2 or math.atan
+
 vector.to_angle = function (self)
-    return -math.atan2(self.y, self.x)
+    return -atan(self.y, self.x)
 end
 
 vector.rotate = function (self, theta)
@@ -86,7 +88,7 @@ end
 
 vector.normalize = function (self)
     local m = self:magnitude()
-    return m == 0 and self or (self / m)
+    return m ~= 0 and (self / m) or vector(0, 0)
 end
 
 vector.dist = function (a, b)

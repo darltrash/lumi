@@ -104,6 +104,9 @@ end
 
 local normalize = function (x, y, z)
     local l = math.sqrt(x^2 + y^2 + z^2)
+    if l == 0 then
+        return 0, 0, 0, 0
+    end
     return x/l, y/l, z/l, l
 end
 
