@@ -16,7 +16,7 @@ rose(entities, systems, process, etcetera)
 ### How does ECS work?
 Imagine you have a bunch of tables with all sorts of data, and you want all of them to act in a certain way depending on what data they contain, like the **Entities** of a game.
 
-ECS works in a similar manner, a bunch of "systems" detect if said items fit a certain criteria, then do a set of operations on those which do.
+ECS works in a similar manner, a bunch of "systems" detect if said items fit a certain criteria, then do a set of operations on them if they do.
 
 Those data items are named **Entities** by ECS.
 

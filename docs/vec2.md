@@ -95,5 +95,5 @@ local pos_b = vec2.new(20, 40)
 
 -- ... and two ways to play with them! 
 local pos_half_1 = pos_a:lerp(pos_b, 0.5)
-local pos_half_2 = vec2.lerp(pos_half_2, pos_b, 0.5)
+local pos_half_2 = vec2.lerp(pos_a, pos_b, 0.5)
 ```

@@ -27,7 +27,7 @@ fluffball:woof() -- Will say woof 2 times
 
 local loud_boi = dog()
 loud_boi.woofness = 5
-loud_boi:woof() -- WIll say woof 5 times
+loud_boi:woof() -- Will say woof 5 times
 ```
 
 <br>
@@ -125,3 +125,5 @@ print(acorn.type({})) -- table
 print(acorn.type("")) -- string
 print(acorn.type(nil)) -- nil
 ```
+
+<sub><sup>Name completely unrelated to [Acorn Computers.](https://en.wikipedia.org/wiki/Acorn_Computers)</sup></sub>
