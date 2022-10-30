@@ -66,7 +66,7 @@ matrix.copy = matrix.new
 matrix.from_perspective = function (fov, aspect, near, far)
     local t = math.tan(math.rad(fov) / 2)
 
-	return matrix.new {
+    return matrix.new {
         [1]  =  1 / (t * aspect),
         [6]  =  1 / t,
         [11] = -(far + near) / (far - near),
@@ -121,7 +121,7 @@ end
 matrix.from_scale = function (scale)
     local x, y, z = vector(scale)
 
-	return matrix.new {
+    return matrix.new {
         [1]  = x,
         [6]  = y,
         [11] = z
@@ -147,15 +147,15 @@ matrix.from_angle_axis = function (angle, axis)
         return matrix.new {}
     end
 
-	local c = math.cos(angle)
-	local s = math.sin(angle)
+    local c = math.cos(angle)
+    local s = math.sin(angle)
 
-	return matrix.new {
-		x*x*(1-c)+c,   y*x*(1-c)+z*s, x*z*(1-c)-y*s, 0,
-		x*y*(1-c)-z*s, y*y*(1-c)+c,   y*z*(1-c)+x*s, 0,
-		x*z*(1-c)+y*s, y*z*(1-c)-x*s, z*z*(1-c)+c,   0,
-		0,             0,             0,             1
-	}
+    return matrix.new {
+        x*x*(1-c)+c,   y*x*(1-c)+z*s, x*z*(1-c)-y*s, 0,
+        x*y*(1-c)-z*s, y*y*(1-c)+c,   y*z*(1-c)+x*s, 0,
+        x*z*(1-c)+y*s, y*z*(1-c)-x*s, z*z*(1-c)+c,   0,
+        0,             0,             0,             1
+    }
 end
 
 -- Create matrix from euler angle (vec3)
@@ -199,18 +199,18 @@ matrix.look_at = function (eye, look_at, up)
     )
 
     local out =  matrix.new {
-	    [1] = x_x,
-	    [2] = y_x,
-	    [3] = z_x,
-	    [4] = 0,
-	    [5] = x_y,
-	    [6] = y_y,
-	    [7] = z_y,
-	    [8] = 0,
-	    [9] =  x_z,
-	    [10] = y_z,
-	    [11] = z_z,
-	    [12] = 0,
+        [1] = x_x,
+        [2] = y_x,
+        [3] = z_x,
+        [4] = 0,
+        [5] = x_y,
+        [6] = y_y,
+        [7] = z_y,
+        [8] = 0,
+        [9] =  x_z,
+        [10] = y_z,
+        [11] = z_z,
+        [12] = 0
     }
 
     out[13] = -out[  1]*eye_x - out[4+1]*eye_y - out[8+1]*eye_z
@@ -224,11 +224,11 @@ end
 -- Converts matrix into columns/vec4s, useful for Löve
 matrix.to_columns = function (self)
     return {
-		{ self[1],  self[2],  self[3],  self[4]  },
-		{ self[5],  self[6],  self[7],  self[8]  },
-		{ self[9],  self[10], self[11], self[12] },
-		{ self[13], self[14], self[15], self[16] }
-	}
+        { self[1],  self[2],  self[3],  self[4]  },
+        { self[5],  self[6],  self[7],  self[8]  },
+        { self[9],  self[10], self[11], self[12] },
+        { self[13], self[14], self[15], self[16] }
+    }
 end
 
 -- Multiplies a matrix by another matrix
