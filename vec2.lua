@@ -109,6 +109,7 @@ end
 local clamp = function (x, min, max)
     return x < min and min or (x > max and max or x)
 end
+
 local lerp = function (a, b, t)
     return a * (1-t) + b * t
 end

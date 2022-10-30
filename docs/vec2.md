@@ -16,10 +16,10 @@ local position = vec2(10, 20)
 ### Mathy stuff!
 ```lua
 -- All vector-to-vector math operations supported! 
-local a = vec2(5, 0) + vec2(0, 5) -- 5, 5
+local a = vec2(5, 0) + vec2(0, 5) -- 5,  5
 local b = vec2(5, 0) - vec2(0, 5) -- 5, -5
-local c = vec2(5, 5) * vec2(1, 1) -- 5, 5
-local d = vec2(5, 5) / vec2(5, 5) -- 1, 1
+local c = vec2(5, 5) * vec2(1, 1) -- 5,  5
+local d = vec2(5, 5) / vec2(5, 5) -- 1,  1
     -- ^ and % also supported
 
 -- number-to-vector also supported!

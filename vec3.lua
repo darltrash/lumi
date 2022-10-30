@@ -21,7 +21,7 @@
     3. This notice may not be removed or altered from any source distribution.
 ]]
 
-local vector = { x = 0, y = 0 }
+local vector = { x = 0, y = 0, z = 0 }
 vector.__index = vector
 vector.__type = "vec3"
 
@@ -157,15 +157,15 @@ vector.round = function(a, b)
     b = b or 1
     return isVector(b) and 
         vector.new(
-            math.floor((a.x/b.x) + .5)*b.x,
-            math.floor((a.y/b.y) + .5)*b.y,
-            math.floor((a.z/b.z) + .5)*b.z
+            math.floor((a.x / b.x) + .5) * b.x,
+            math.floor((a.y / b.y) + .5) * b.y,
+            math.floor((a.z / b.z) + .5) * b.z
         )
         or
         vector.new(
-            math.floor((a.x/b) + .5)*b,  
-            math.floor((a.y/b) + .5)*b,
-            math.floor((a.z/b) + .5)*b
+            math.floor((a.x / b) + .5) * b,  
+            math.floor((a.y / b) + .5) * b,
+            math.floor((a.z / b) + .5) * b
         )
 end
 
@@ -232,7 +232,6 @@ end
 
 vector.zero = vector.new(0, 0, 0)
 vector.one  = vector.new(1, 1, 1)
-vector.up   = vector.new(0, 1, 0)
 
 return setmetatable(vector, {
     __call = function (self, ...)
