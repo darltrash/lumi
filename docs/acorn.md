@@ -35,7 +35,7 @@ loud_boi:woof() -- Will say woof 5 times
 ### No inheritance???
 Yup, no inheritance. This is an intentional design choice and it's like that because it's a very opinionated library written for my own projects. I have noticed that reducing how much inheritance I add to my designs tends to allow me to write simpler and more efficient code.
 
-If you want a neato little library with OOP + Inheritance, you can check [kikito's fantastic middleclass](https://github.com/kikito/middleclass)!
+If you want a neato little library with OOP + Inheritance, you can check kikito's fantastic [middleclass](https://github.com/kikito/middleclass)!
 
 <br>
 
