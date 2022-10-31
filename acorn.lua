@@ -51,5 +51,5 @@ return {
         local meta = getmetatable(v)
         return meta and meta.__type or
             (not ignore_vanilla) and type(v) or nil
-    end,
+    end
 }

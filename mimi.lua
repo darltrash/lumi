@@ -53,11 +53,13 @@ local function decode(txt, out)
 		line = line:gsub("#.*", ""):match("^%s*(.*)%s*$")
 		line_number = line_number + 1
 
+		-- Line is clear?
 		if line == "" then
 			goto continue
 		end
 	
 		local header = line:match("^%[(.*)%]$")
+		-- Line is a header definition?
 		if header then
 			current = out
 			for name in header:gmatch("([%w_]+)%.?") do 
@@ -69,6 +71,7 @@ local function decode(txt, out)
 		end
 		
 		local name, value = line:match("^([%w_]+)%s*:%s*(.*)$")
+		-- Line is a value definition?
 		if not name then
 			name, value = line:match("^\"(.*)\"%s*:%s*(.*)$")
 		end
@@ -76,6 +79,7 @@ local function decode(txt, out)
 		if name then
 			value = value:match("^%s*(.*)%s*$")
 
+			-- Value is boolean?
 			if value == "yes" or value == "no" then
 				current[name] = value == "yes"
 			else

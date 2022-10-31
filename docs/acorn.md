@@ -126,4 +126,15 @@ print(acorn.type("")) -- string
 print(acorn.type(nil)) -- nil
 ```
 
+<br>
+
+### The `__instance` property
+```lua
+local class = acorn.class {}
+local instance = class ()
+
+print(class.__instance) -- nil by default
+print(instance.__instance) -- true by default
+```
+
 <sub><sup>Name completely unrelated to [Acorn Computers.](https://en.wikipedia.org/wiki/Acorn_Computers)</sup></sub>
