@@ -14,7 +14,11 @@ local data = mimi.load "whatever.mi"
 <br>
 
 ### So, about the syntax
-The syntax is very inspired off INI and TOML but it is not identical.
+The syntax is designed to be the mid-point between INI and TOML; simple like INI, but standarized and solid as TOML.
+
+It has simplicity as it's main priority (both from the parsing standpoint and the user experience standpoint.)
+
+It was born from the consideration that INI tends to be very unstable in my experience, and TOML tends to be overkill for most of what I do, So I made my own and it looks like this:
 
 *Preview:*
 ```yaml
@@ -42,7 +46,7 @@ url: https://github.com/
     # Tabs are not required, but they make things nice
 
     number: 300      # Same number syntax as Lua
-    string: "great"  # Only '"' allowed, sorry
+    string: "great"  # Only '"' allowed, for now :)
     string2: We ird! # Gets trailing space removed
     boolean: yes     # True and false become yes and no
     "speci@l!": 0xff # '"' for unconventional key names
