@@ -31,19 +31,8 @@
     This library was made with the intention to continue the works done at:
         https://github.com/excessive/cpcl
 
-    This library handles basic Spheroid to Mesh collision resolution (in that order),
-    and it aims to be as minimal as possible.
-
-    It does not:
-        - Handle any sort of physics (like things rolling off slopes)
-        - Handle spatial hashing optimizations (it's up to you how you store your vertices)
-        - Handle Mesh-to-Spheroid collision handling
-        - Handle rotated/skewed spheroids, only supports scaling
-        - Handle any "state" (Like a list of spheres, or a list of triangles)
-
-    And while this library does not handle any complex physics, you could
-    theoretically build a basic physics engine on top without changing the internals, 
-    just be aware that it only can handle scaled spheres to mesh collision resolution
+    Please read https://github.com/darltrash/lumi/blob/main/docs/slam.md
+    to get a better knowledge of what this can and cannot do
 ]]
 
 -- TODO?: DECOUPLE FROM LUMI.VEC3
