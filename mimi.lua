@@ -2,27 +2,27 @@
 
 --[[
     Copyright (c) 2022 Nelson Lopez
-    
-    This software is provided 'as-is', without any express or implied warranty. 
+
+    This software is provided 'as-is', without any express or implied warranty.
     In no event will the authors be held liable for any damages arising from the use of this software.
-    
-    Permission is granted to anyone to use this software for any purpose, 
-    including commercial applications, and to alter it and redistribute it freely, 
+
+    Permission is granted to anyone to use this software for any purpose,
+    including commercial applications, and to alter it and redistribute it freely,
     subject to the following restrictions:
 
-    1. The origin of this software must not be misrepresented; 
-        you must not claim that you wrote the original software. 
-        If you use this software in a product, an acknowledgment 
+    1. The origin of this software must not be misrepresented;
+        you must not claim that you wrote the original software.
+        If you use this software in a product, an acknowledgment
         in the product documentation would be appreciated but is not required.
 
-    2. Altered source versions must be plainly marked as such, 
+    2. Altered source versions must be plainly marked as such,
         and must not be misrepresented as being the original software.
 
     3. This notice may not be removed or altered from any source distribution.
 ]]
 
 local backend = {
-	read = function (file)
+	read = function(file)
 		local f = assert(io.open(file, "rb"))
 		local o = f:read("*all")
 		f:close()
@@ -57,19 +57,19 @@ local function decode(txt, out)
 		if line == "" then
 			goto continue
 		end
-	
+
 		local header = line:match("^%[(.*)%]$")
 		-- Line is a header definition?
 		if header then
 			current = out
-			for name in header:gmatch("([%w_]+)%.?") do 
+			for name in header:gmatch("([%w_]+)%.?") do
 				current[name] = current[name] or {}
-				current = current[name] 
+				current = current[name]
 			end
-	
+
 			goto continue
 		end
-		
+
 		local name, value = line:match("^([%w_]+)%s*:%s*(.*)$")
 		-- Line is a value definition?
 		if not name then
@@ -90,10 +90,8 @@ local function decode(txt, out)
 			end
 
 			goto continue
-			
 		else
-			return nil, ("Invalid line #"..line_number.."!")
-
+			return nil, ("Invalid line #" .. line_number .. "!")
 		end
 
 		::continue::
@@ -103,25 +101,22 @@ local function decode(txt, out)
 end
 
 local function encode(input, name)
-	local out = name and ("["..name.."]\n") or ""
+	local out = name and ("[" .. name .. "]\n") or ""
 
 	local check_later = {}
 	for key, value in pairs(input) do
 		local t = type(value)
 		key = tostring(key)
-		if key:gsub("%w_*", "")~="" then
+		if key:gsub("%w_*", "") ~= "" then
 			key = '"' .. key .. '"'
 		end
 
 		if t == "string" then
 			out = out .. ("%s: \"%s\"\n"):format(key, value)
-			
 		elseif t == "number" then
 			out = out .. ("%s: %s\n"):format(key, value)
-
 		elseif t == "boolean" then
 			out = out .. ("%s: %s\n"):format(key, value and "yes" or "no")
-
 		elseif t == "table" then
 			local n = (name and (name .. ".") or "") .. key
 			check_later[n] = value
@@ -146,7 +141,7 @@ local function write(file, data)
 end
 
 return {
-	backend = backend, 
+	backend = backend,
 
 	decode = decode,
 	encode = encode,

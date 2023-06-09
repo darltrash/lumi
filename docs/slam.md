@@ -56,14 +56,14 @@ local new_position, new_velocity, planes = slam(position, velocity, radius, quer
         - `max`: The ending point of a box for indexing, a `vec3`
         - `velocity`: The spheroid's transformed velocity, a `vec3`
         - `data` optional data passed by `slam.check` 
-        - `⤵️triangles`: A list of triangles in `{vec3, vec3, vec3}` format
-        - `⤵️ids`: an ID for each triangle, any type
+        - `⤵️ triangles`: A list of triangles in `{vec3, vec3, vec3}` format
+        - `⤵️ ids`: an ID for each triangle, any type
       - Or just a list of triangles in `{vec3, vec3, vec3}` format
     - `substeps`: Amount of intermediary steps, default is 1, an `integer`.
     - `data`: Any data to pass to the query function (if it's even a function...)
-    - `⤵️new_position`: The next position according to velocity, with the collision response applied, a `vec3`
-    - `⤵️new_velocity`: The difference between the input position and `new_position`, a `vec3`
-    - `⤵️planes`: A list of planes like:
+    - `⤵️ new_position`: The next position according to velocity, with the collision response applied, a `vec3`
+    - `⤵️ new_velocity`: The difference between the input position and `new_position`, a `vec3`
+    - `⤵️ planes`: A list of planes like:
       - `normal`: Plane normal, a `vec3`
       - `position`: Plane position, a `vec3`
       - `near`: How close is it to the sphere, a `number` from 0 to 1

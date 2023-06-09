@@ -63,7 +63,7 @@ vector.to_array = function (self)
     return {self.x, self.y}
 end
 
-local atan = math.atan or math.atan2
+local atan = math.atan2 or math.atan
 
 vector.to_angle = function (self)
     return -atan(self.y, self.x)

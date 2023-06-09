@@ -40,24 +40,24 @@ local current_folder = (...):gsub('%.[^%.]+$', '')
 local vector = require(current_folder .. "vec3")
 local slam = {}
 
-local clamp = function (a, min, max)
+local clamp = function(a, min, max)
     return math.max(min, math.min(max, a))
 end
 
-local signed_distance = function (plane, base)
+local signed_distance = function(plane, base)
     local d = -vector.dot(plane.normal, plane.position)
     return vector.dot(base, plane.normal) + d
 end
 
-local swap = function (a, b)
+local swap = function(a, b)
     return b, a
 end
 
-slam.triangle_intersects_point = function (point, v0, v1, v2)
+slam.triangle_intersects_point = function(point, v0, v1, v2)
     local u = v1 - v0
     local v = v2 - v0
     local w = point - v0
-    
+
     local vw = vector.cross(v, w)
     local vu = vector.cross(v, u)
 
@@ -79,16 +79,16 @@ slam.triangle_intersects_point = function (point, v0, v1, v2)
     return (r + t) <= 1
 end
 
-local get_lowest_root = function (a, b, c, max)
-    local determinant = b*b - 4*a*c
+local get_lowest_root = function(a, b, c, max)
+    local determinant = b * b - 4 * a * c
 
     if determinant < 0 then
         return false
     end
 
     local sqrtd = math.sqrt(determinant)
-    local r1 = (-b - sqrtd) / (2*a)
-    local r2 = (-b + sqrtd) / (2*a)
+    local r1 = (-b - sqrtd) / (2 * a)
+    local r2 = (-b + sqrtd) / (2 * a)
 
     if (r1 > r2) then -- perform swap
         r1, r2 = swap(r1, r2)
@@ -105,13 +105,13 @@ local get_lowest_root = function (a, b, c, max)
     return false
 end
 
-local check_triangle = function (packet, p1, p2, p3, id)
+local check_triangle = function(packet, p1, p2, p3, id)
     local plane_normal = vector.normalize(vector.cross(p2 - p1, p3 - p1))
 
---    // only check front facing triangles
---	if (vec3.dot(pn, packet.e_norm_velocity) > 0.0) {
---		//return packet;
---	}
+    --  // only check front facing triangles
+    --	if (vec3.dot(pn, packet.e_norm_velocity) > 0.0) {
+    --		//return packet;
+    --	}
 
     local t0 = 0
     local embedded_in_plane = false
@@ -194,8 +194,10 @@ local check_triangle = function (packet, p1, p2, p3, id)
             local edge_dot_base_to_vertex = vector.dot(edge, base_to_vertex)
 
             local a = edge_sq_length * -velocity_sq_length + edge_dot_velocity * edge_dot_velocity
-            local b = edge_sq_length * (2.0 * vector.dot(packet.e_velocity, base_to_vertex)) - 2.0 * edge_dot_velocity * edge_dot_base_to_vertex
-            local c = edge_sq_length * (1.0 - vector.magnitude2(base_to_vertex)) + edge_dot_base_to_vertex * edge_dot_base_to_vertex;
+            local b = edge_sq_length * (2.0 * vector.dot(packet.e_velocity, base_to_vertex)) -
+                2.0 * edge_dot_velocity * edge_dot_base_to_vertex
+            local c = edge_sq_length * (1.0 - vector.magnitude2(base_to_vertex)) +
+                edge_dot_base_to_vertex * edge_dot_base_to_vertex;
 
             local new_t = get_lowest_root(a, b, c, t)
             if new_t then
@@ -211,8 +213,8 @@ local check_triangle = function (packet, p1, p2, p3, id)
         end
 
         collision_point = check_edge(collision_point, p1, p2) -- p1 -> p2
-		collision_point = check_edge(collision_point, p2, p3) -- p2 -> p3
-		collision_point = check_edge(collision_point, p3, p1) -- p3 -> p1
+        collision_point = check_edge(collision_point, p2, p3) -- p2 -> p3
+        collision_point = check_edge(collision_point, p3, p1) -- p3 -> p1
     end
 
     if found_collision then
@@ -230,22 +232,22 @@ local check_triangle = function (packet, p1, p2, p3, id)
     return packet
 end
 
-local check_collision = function (packet, triangles, ids)
+local check_collision = function(packet, triangles, ids)
     local inv_radius = packet.e_inv_radius
 
     for index, triangle in ipairs(triangles) do
-		local v0 = vector.from_array(triangle[1])
-		local v1 = vector.from_array(triangle[2])
-		local v2 = vector.from_array(triangle[3])
+        local v0 = vector.from_array(triangle[1])
+        local v1 = vector.from_array(triangle[2])
+        local v2 = vector.from_array(triangle[3])
 
-		check_triangle(
-			packet,
-			v0 * inv_radius,
-			v1 * inv_radius,
-			v2 * inv_radius,
+        check_triangle(
+            packet,
+            v0 * inv_radius,
+            v1 * inv_radius,
+            v2 * inv_radius,
             ids and ids[index] or 0
-		)
-	end
+        )
+    end
 end
 
 -- This implements the improvements to Kasper Fauerby's "Improved Collision
@@ -258,7 +260,7 @@ slam.collide_with_world = function(packet, position, velocity, triangles, ids)
     local dest = position + velocity
     local speed = 1
 
-    for i=1, 3 do
+    for i = 1, 3 do
         packet.e_norm_velocity = vector.normalize(velocity)
         packet.e_velocity = vector.copy(velocity)
         packet.e_base_point = vector.copy(position)
@@ -295,7 +297,7 @@ slam.collide_with_world = function(packet, position, velocity, triangles, ids)
         if i == 1 then
             local long_radius = 1 + speed * VERY_CLOSE_DIST
             first_plane = p
-            
+
             dest = dest - (first_plane.normal * (signed_distance(first_plane, dest) - long_radius))
             velocity = dest - position
         elseif i == 2 and first_plane then
@@ -312,17 +314,17 @@ end
 
 local function get_tris(position, velocity, radius, query, data)
     local scale = math.max(1.5, vector.magnitude(velocity)) * 1.25
-	local r3_position = position
-	local query_radius = radius * scale
-	local min = r3_position - query_radius
-	local max = r3_position + query_radius
+    local r3_position = position
+    local query_radius = radius * scale
+    local min = r3_position - query_radius
+    local max = r3_position + query_radius
 
-	return query(min, max, velocity, data)
+    return query(min, max, velocity, data)
 end
 
 local function sub_update(packet, position, triangles, ids)
     packet.e_velocity = packet.e_velocity * 0.5
-    
+
     local e_position = vector.copy(packet.e_position)
     local e_velocity = vector.copy(packet.e_velocity)
 
@@ -334,13 +336,13 @@ end
 
 -- query must be function(min, max, velocity)->triangles,id?
 -- returns position, velocity, contacts (as planes)
-slam.check = function (position, velocity, radius, query, substeps, data)
+slam.check = function(position, velocity, radius, query, substeps, data)
     substeps = substeps or 1
     velocity = velocity / substeps
 
     local _q = query
-    if type(query)=="table" then
-        query = function ()
+    if type(query) == "table" then
+        query = function()
             return _q
         end
     end
@@ -349,22 +351,22 @@ slam.check = function (position, velocity, radius, query, substeps, data)
 
     local base = position
     local contacts = {}
-    for i=1, substeps do
+    for i = 1, substeps do
         local packet = {
-            r3_position  = position,
-			r3_velocity  = velocity,
-			e_radius     = radius,
-			e_inv_radius = vector(1, 1, 1) / radius,
-			e_position   = position / radius,
-			e_velocity   = velocity / radius,
-			e_norm_velocity  = vector(0, 0, 0),
-			e_base_point     = vector(0, 0, 0),
-			found_collision  = false,
-			nearest_distance = 0,
-			intersect_point  = vector(0, 0, 0),
-			intersect_time   = 0,
-			id = 0,
-			contacts = contacts
+            r3_position      = position,
+            r3_velocity      = velocity,
+            e_radius         = radius,
+            e_inv_radius     = vector(1, 1, 1) / radius,
+            e_position       = position / radius,
+            e_velocity       = velocity / radius,
+            e_norm_velocity  = vector(0, 0, 0),
+            e_base_point     = vector(0, 0, 0),
+            found_collision  = false,
+            nearest_distance = 0,
+            intersect_point  = vector(0, 0, 0),
+            intersect_time   = 0,
+            id               = 0,
+            contacts         = contacts
         }
 
         sub_update(packet, packet.r3_position, tri_cache, id_cache)
