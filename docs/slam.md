@@ -31,7 +31,7 @@ local new_position, new_velocity, planes = slam(position, velocity, radius, quer
 
 ### What it does:
 - Handle simple spheroid-to-mesh collision resolution (in that order)
-- Do sweeping collision resolution, and give you a list of colliding planes so you can expand upon it.
+- Do sweeping collision resolution, and give you a list of colliding planes so you can expand upon it
 - Handle scaled spheres (called spheroids thorough this document)
 
 ### What it doesn't do:
@@ -42,6 +42,8 @@ local new_position, new_velocity, planes = slam(position, velocity, radius, quer
 ### What it can't do:
 - Handle sheared and rotated spheroids, it can only handle scaled spheres (fine for most games tbh)
 - Mesh-to-spheroid collision resolution, or basically anything that isnt Spheroid-to-mesh collision resolution
+
+<br>
 
 ### Methods/functions:
 -   `slam.check(position, velocity, radius, query, substeps?, data?) -> new_position, new_velocity, planes`: <br>
@@ -61,3 +63,11 @@ local new_position, new_velocity, planes = slam(position, velocity, radius, quer
     - `data`: Any data to pass to the query function (if it's even a function...)
 
 An alternative form for `slam.check` can be just `slam`, for convenience. ;)
+
+<br>
+
+### Thanks to:
+- Kasper Fauerby for their absolutely fantastic paper, [Improved Collision detection and Response](https://www.peroxide.dk/papers/collision/collision.pdf)
+- Jeff Linahan for implementing crucial improvements to Fauerby's paper, in their own paper, [Improving the Numerical Robustness of Sphere
+Swept Collision Detection](https://arxiv.org/pdf/1211.0059.pdf)
+- And specially, [Excessive](https://github.com/excessive/), for having implemented the [first version of what's implemented in Slam](https://github.com/excessive/cpcl)
