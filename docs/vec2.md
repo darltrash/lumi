@@ -1,4 +1,4 @@
-## vec2.lua: A simple 2D vector library
+## `vec2.lua: A simple 2D vector library`
 <br>
 
 To import it on your project:

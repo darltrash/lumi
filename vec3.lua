@@ -24,12 +24,13 @@
 local vector = { x = 0, y = 0, z = 0 }
 vector.__index = vector
 vector.__type = "vec3"
+vector.name = vector.__type
 
-local function isVector(a)
+local function is_vector(a)
     return getmetatable(a) == vector
 end
 
-vector.is_vector = isVector
+vector.is_vector = is_vector
 
 vector.new = function (x, y, z)
     return setmetatable(
@@ -85,8 +86,12 @@ vector.unpack = function (self)
     return self.x, self.y, self.z
 end
 
+vector.magnitude2 = function (self)
+    return self.x*self.x + self.y*self.y + self.z*self.z
+end
+
 vector.magnitude = function (self)
-    return math.sqrt(self.x^2 + self.y^2 + self.z^2)
+    return math.sqrt(self:magnitude2())
 end
 
 vector.normalize = function (self)
@@ -102,7 +107,19 @@ vector.dist = function (a, b)
 end
 
 vector.dot = function (a, b)
-    return  a.x * b.x + a.y * b.y + a.z * b.z
+    return a.x * b.x + a.y * b.y + a.z * b.z
+end
+
+vector.reflect = function (a, b)
+    return a - (b * vector.dot(a, b) * 2)
+end
+
+vector.cross = function (a, b)
+    return vector.new(
+		a.y * b.z - a.z * b.y,
+		a.z * b.x - a.x * b.z,
+		a.x * b.y - a.y * b.x
+	)
 end
 
 vector.sign = function (a)
@@ -114,20 +131,23 @@ vector.sign = function (a)
 end
 
 local clamp = function (x, min, max)
-    return x < min and min or (x > max and max or x)
+    return math.min(math.max(min, x), max)
 end
 local lerp = function (a, b, t)
     return a * (1-t) + b * t
 end
+local decay = function (value, target, rate, delta)
+    return lerp(target, value, math.exp(-math.exp(rate)*delta))
+end
 
 vector.clamp = function (a, min, max)
     local minx, miny, minz = min, min, min
-    if isVector(min) then
+    if is_vector(min) then
         minx, miny, minz = min:unpack()
     end
     
     local maxx, maxy, maxz = max, max, max
-    if isVector(max) then
+    if is_vector(max) then
         maxx, maxy, maxz = max:unpack()
     end
     
@@ -139,7 +159,7 @@ vector.clamp = function (a, min, max)
 end
 
 vector.lerp = function (a, b, t)
-    return isVector(b) and
+    return is_vector(b) and
         vector.new(
             lerp(a.x, b.x, t), 
             lerp(a.y, b.y, t), 
@@ -153,9 +173,24 @@ vector.lerp = function (a, b, t)
         )
 end
 
+vector.decay = function (a, b, rate, delay)
+    return is_vector(b) and
+        vector.new(
+            decay(a.x, b.x, rate, delay),
+            decay(a.y, b.y, rate, delay),
+            decay(a.z, b.z, rate, delay)
+        )
+        or
+        vector.new(
+            decay(a.x, b, rate, delay),
+            decay(a.y, b, rate, delay),
+            decay(a.z, b, rate, delay)
+        )
+end
+
 vector.round = function(a, b)
     b = b or 1
-    return isVector(b) and 
+    return is_vector(b) and 
         vector.new(
             math.floor((a.x / b.x) + .5) * b.x,
             math.floor((a.y / b.y) + .5) * b.y,
@@ -175,34 +210,40 @@ vector.__call = function (self, ...)
 end
 
 vector.__add = function (a, b)
-    return isVector(b) and vector.new(a.x+b.x, a.y+b.y, a.z+b.z)
+    return is_vector(b) and vector.new(a.x+b.x, a.y+b.y, a.z+b.z)
                         or vector.new(a.x+b,   a.y+b  , a.z+b)
 end
+vector.add = vector.__add
 
 vector.__sub = function (a, b)
-    return isVector(b) and vector.new(a.x-b.x, a.y-b.y, a.z-b.z)
+    return is_vector(b) and vector.new(a.x-b.x, a.y-b.y, a.z-b.z)
                         or vector.new(a.x-b,   a.y-b  , a.z-b)
 end
+vector.sub = vector.__sub
 
 vector.__mul = function (a, b)
-    return isVector(b) and vector.new(a.x*b.x, a.y*b.y, a.z*b.z)
+    return is_vector(b) and vector.new(a.x*b.x, a.y*b.y, a.z*b.z)
                         or vector.new(a.x*b,   a.y*b  , a.z*b)
 end
+vector.mul = vector.__mul
 
 vector.__div = function (a, b)
-    return isVector(b) and vector.new(a.x/b.x, a.y/b.y, a.z/b.z)
+    return is_vector(b) and vector.new(a.x/b.x, a.y/b.y, a.z/b.z)
                         or vector.new(a.x/b,   a.y/b  , a.z/b)
 end
+vector.div = vector.__div
 
 vector.__mod = function (a, b)
-    return isVector(b) and vector.new(a.x%b.x, a.y%b.y, a.z%b.z)
+    return is_vector(b) and vector.new(a.x%b.x, a.y%b.y, a.z%b.z)
                         or vector.new(a.x%b,   a.y%b  , a.z%b)
 end
+vector.modulo = vector.__mod
 
 vector.__pow = function (a, b)
-    return isVector(b) and vector.new(a.x^b.x, a.y^b.y, a.z^b.z)
+    return is_vector(b) and vector.new(a.x^b.x, a.y^b.y, a.z^b.z)
                         or vector.new(a.x^b,   a.y^b  , a.z^b)
 end
+vector.pow = vector.__pow
 
 vector.__unm = function (a)
     a.x = -a.x
@@ -212,22 +253,22 @@ vector.__unm = function (a)
 end
 
 vector.__eq = function (a, b)
-    return isVector(b) and (a.x==b.x and a.y==b.y and a.z==b.z)
+    return is_vector(b) and (a.x==b.x and a.y==b.y and a.z==b.z)
                         or (a.x==b   and a.y==b   and a.z==b)
 end
 
 vector.__lt = function (a, b)
-    return isVector(b) and (a.x>b.x and a.y>b.y and a.z>b.z)
+    return is_vector(b) and (a.x>b.x and a.y>b.y and a.z>b.z)
                         or (a.x>b   and a.y>b   and a.z>b)
 end
 
 vector.__le = function (a, b)
-    return isVector(b) and (a.x>=b.x and a.y>=b.y and a.z>=b.z)
+    return is_vector(b) and (a.x>=b.x and a.y>=b.y and a.z>=b.z)
                         or (a.x>=b   and a.y>=b   and a.z>=b)
 end
 
 vector.__tostring = function (a)
-    return ("vec3(%s, %s)"):format(a.x, a.y)
+    return ("vec3(%s, %s, %s)"):format(a.x, a.y, a.z)
 end
 
 vector.zero = vector.new(0, 0, 0)

@@ -24,6 +24,7 @@
 local vector = { x = 0, y = 0 }
 vector.__index = vector
 vector.__type = "vec2"
+vector.name = vector.__type
 
 local function isVector(a)
     return getmetatable(a) == vector

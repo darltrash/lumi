@@ -12,7 +12,7 @@ To import it on your project:
 ```lua
 local acorn = require "acorn"
 
-local dog = acorn.class {
+local Dog = acorn.class {
     woofness = 2,
 
     woof = function (self)
@@ -22,10 +22,10 @@ local dog = acorn.class {
     end
 }
 
-local fluffball = dog()
+local fluffball = Dog()
 fluffball:woof() -- Will say woof 2 times
 
-local loud_boi = dog()
+local loud_boi = Dog()
 loud_boi.woofness = 5
 loud_boi:woof() -- Will say woof 5 times
 ```
@@ -41,7 +41,7 @@ If you want a neato little library with OOP + Inheritance, you can check kikito'
 
 ### Constructors
 ```lua
-local dog = acorn.class {
+local Dog = acorn.class {
     woofness = 2,
     name = "none",
 
@@ -54,16 +54,16 @@ local dog = acorn.class {
     end
 }
 
-local dog_1 = dog("Puddles")
+local dog_1 = Dog("Puddles")
 dog_1:say_hello() -- "woof! my name is: Puddles"
 
-local dog_2 = dog.new("Bingo")
+local dog_2 = Dog.new("Bingo")
 dog_2:say_hello() -- "woof! my name is: Bingo"
 
-local dog_3 = dog()
+local dog_3 = Dog()
 dog_3:say_hello() -- "woof! my name is: none"
 
-local dog_4 = dog:new("Gabungi")
+local dog_4 = Dog:new("Gabungi")
 dog_4:say_hello() -- "woof my name is: Gabungi"
 ```
 
@@ -113,7 +113,7 @@ local whatever = acorn.class {}
 
 local chair = whatever()
 print(acorn.type(chair)) -- Instance
-print(acorn.type(dog)) -- Class
+print(acorn.type(whatever)) -- Class
 ```
 
 ```lua
